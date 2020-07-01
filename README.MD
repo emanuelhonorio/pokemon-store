@@ -3,7 +3,7 @@
 ### Requirements
 
 - [x] Registration with name, email and password
-- [ ] Authentication with email and password
+- [x] Authentication with email and password
 - [x] User should start with 2000 coins
 - [ ] App should have a store with pokemons
 - [x] Each pokemon should have a rarity
