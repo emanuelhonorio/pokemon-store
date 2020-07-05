@@ -1,9 +1,10 @@
 const Sequelize = require("sequelize")
 const databaseConfig = require('../config/database')
 const User = require('../models/user')
-const Ṕokemon = require('../models/pokemon')
+const Pokemon = require('../models/pokemon')
+const Chest = require("../models/chest")
 
-const models = [User, Ṕokemon]
+const models = [Pokemon, User, Chest]
 
 class Database {
   constructor() {
@@ -12,7 +13,15 @@ class Database {
 
   init() {
     this.connection = new Sequelize(databaseConfig)
-    models.forEach(model => model.init(this.connection))
+    models
+      .map(model => {
+        model.init(this.connection)
+        return model
+      })
+      .map(model => {
+        model.associate && model.associate(this.connection.models)
+        return model
+      })
   }
 }
 

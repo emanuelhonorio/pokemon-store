@@ -1,21 +1,20 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('pokemons', {
+    await queryInterface.createTable('user_pokemons', {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        autoIncrement: true,
+        type: Sequelize.INTEGER,
       },
-      name: {
+      user_id: {
         allowNull: false,
-        type: Sequelize.STRING,
+        references: { model: 'users', key: 'id' },
+        type: Sequelize.INTEGER,
       },
-      rarity: {
+      pokemon_id: {
         allowNull: false,
-        type: Sequelize.ENUM(['COMMON', 'RARE', 'SUPER_RARE', 'ULTRA_RARE']),
-      },
-      price: {
-        defaultValue: 9999,
+        references: { model: 'pokemons', key: 'id' },
         type: Sequelize.INTEGER,
       },
       created_at: {
@@ -29,6 +28,6 @@ module.exports = {
     })
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('pokemons')
+    await queryInterface.dropTable('user_pokemons')
   }
 }

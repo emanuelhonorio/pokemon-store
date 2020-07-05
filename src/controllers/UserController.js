@@ -1,5 +1,6 @@
 const Yup = require('yup')
 const User = require('../models/user')
+const Pokemon = require("../models/pokemon")
 
 class UserController {
 

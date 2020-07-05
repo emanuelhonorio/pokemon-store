@@ -5,6 +5,8 @@ class Pokemon extends Model {
   static init(sequelize) {
     super.init({
       name: DataTypes.STRING,
+      rarity: DataTypes.ENUM(['COMMON', 'RARE', 'SUPER_RARE', 'ULTRA_RARE']),
+      price: DataTypes.INTEGER,
       image_url: {
         type: DataTypes.VIRTUAL,
         get: function() {
@@ -13,7 +15,7 @@ class Pokemon extends Model {
           return 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/'+num+'.png'
         }
       },
-      rarity: DataTypes.ENUM(['COMMON', 'RARE', 'SUPER_RARE', 'ULTRA_RARE']),
+      owned: DataTypes.VIRTUAL,
     }, {
       sequelize,
       modelName: 'Pokemon',
@@ -21,7 +23,16 @@ class Pokemon extends Model {
   }
   
   static associate(models) {
-    // define association here
+    Pokemon.belongsToMany(models.User, {
+      through: 'user_pokemons',
+      as: 'users',
+      foreignKey: 'pokemon_id'
+    })
+    Pokemon.belongsToMany(models.Chest, {
+      through: 'pokemon_chests',
+      as: 'chests',
+      foreignKey: 'pokemon_id',
+    })
   }
 };
 

@@ -21,8 +21,12 @@ module.exports = async (req, res, next) => {
     return res.status(403).json({ error: 'Invalid token' })
   }
 
-  const payload = await promisify(verify)(token, secret)
-  req.userId = payload.id
+  try {
+    const payload = await promisify(verify)(token, secret)
+    req.userId = payload.id
+  } catch (err) {
+    return res.status(403).json({ error: 'Invalid token' })
+  }
 
   next()
 }

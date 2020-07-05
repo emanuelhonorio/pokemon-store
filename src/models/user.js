@@ -24,7 +24,11 @@ class User extends Model {
   }
   
   static associate(models) {
-    // define association here
+    User.belongsToMany(models.Pokemon, {
+      through: 'user_pokemons',
+      as: 'pokemons',
+      foreignKey: 'user_id'
+    })
   }
 };
 
